@@ -6,7 +6,7 @@ export default function Home() {
   const [userName, setUserName] = useState<string | null>(null);
 
   useEffect(() => {
-    AsyncStorage.getItem('@current_user').then((raw) => {
+    AsyncStorage.getItem('@current_user').then((raw: string | null) => {
       if (raw) {
         try {
           const u = JSON.parse(raw);
@@ -28,9 +28,9 @@ export default function Home() {
       <View style={styles.card}>
         <Text style={styles.cardTitle}>What this app does</Text>
         <Text style={styles.cardText}>
-          This app helps you book seats, register parcels with waybills and QR codes, track parcel status and view trip details with live updates.
+          Book seats, register parcels with waybills and QR codes, track parcel status and view trip details with updates.
         </Text>
-        <Image source={require('../assets/public/feature-samples.jpg')} style={styles.hero} resizeMode="cover" />
+        <Image source={require('@/assets/images/vision board.png')} style={styles.hero} resizeMode="cover" />
       </View>
 
       <View style={styles.card}>

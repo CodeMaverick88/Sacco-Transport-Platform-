@@ -8,7 +8,7 @@ export default function Profile({ onLogout }: Props) {
   const [user, setUser] = useState<{ name?: string; email?: string } | null>(null);
 
   useEffect(() => {
-    AsyncStorage.getItem('@current_user').then((raw) => {
+    AsyncStorage.getItem('@current_user').then((raw: string | null) => {
       if (raw) setUser(JSON.parse(raw));
     });
   }, []);

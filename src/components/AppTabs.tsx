@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { SafeAreaView, StyleSheet, View } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+import { TabKey } from '@/type/navigation';
 import Login from '../screens/Login';
 import Home from '../screens/Home';
 import Bookings from '../screens/Bookings';
@@ -9,17 +10,13 @@ import Parcels from '../screens/Parcels';
 import Profile from '../screens/Profile';
 import BottomTabBar from '@/components/BottomTabbar';
 
-export type TabKey = 'HOME' | 'BOOKINGS' | 'PARCELS' | 'PROFILE' | 'LOGIN';
-
 export default function AppTabs() {
   const [currentTab, setCurrentTab] = useState<TabKey>('LOGIN');
   const [userLoaded, setUserLoaded] = useState(false);
 
   useEffect(() => {
-    // check local session (device-remember)
-    AsyncStorage.getItem('@current_user').then((raw) => {
+    AsyncStorage.getItem('@current_user').then((raw: string | null) => {
       if (raw) {
-        // basic guard — real app should validate token with backend
         setCurrentTab('HOME');
       } else {
         setCurrentTab('LOGIN');
@@ -35,12 +32,10 @@ export default function AppTabs() {
 
   const handleLogin = async (user: { id: string; name: string; email?: string }) => {
     await AsyncStorage.setItem('@current_user', JSON.stringify(user));
-    // After login go to HOME
     setCurrentTab('HOME');
   };
 
   if (!userLoaded) {
-    // simple blank while loading persisted state
     return <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }} />;
   }
 
@@ -54,7 +49,6 @@ export default function AppTabs() {
         {currentTab === 'PROFILE' && <Profile onLogout={handleLogout} />}
       </View>
 
-      {/* persistent bottom tab bar, never moves */}
       {currentTab !== 'LOGIN' && (
         <BottomTabBar active={currentTab} onTabChange={(t) => setCurrentTab(t)} />
       )}

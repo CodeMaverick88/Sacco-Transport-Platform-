@@ -1,21 +1,13 @@
 import React from 'react';
-import { StyleSheet, Text, View, ViewStyle, TextStyle } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { ParcelStatus } from '@/type/parcel';
 
 interface Props {
   status: ParcelStatus;
 }
 
-type BadgeStyle = {
-  bg: string;
-  text: string;
-  label: string;
-  container?: ViewStyle;
-  textStyle?: TextStyle;
-};
-
 export const StatusBadge: React.FC<Props> = ({ status }) => {
-  const getBadgeStyle = (): BadgeStyle => {
+  const getBadgeStyle = () => {
     switch (status) {
       case 'REGISTERED':
         return { bg: '#E6F3FF', text: '#0B6FB3', label: 'REGISTERED' };
@@ -51,11 +43,9 @@ const styles = StyleSheet.create({
     paddingVertical: 6,
     borderRadius: 18,
     alignSelf: 'flex-start',
-    // shadow for iOS
     shadowOffset: { width: 0, height: 6 },
     shadowOpacity: 0.08,
     shadowRadius: 12,
-    // elevation for Android
     elevation: 3,
   },
   badgeText: {

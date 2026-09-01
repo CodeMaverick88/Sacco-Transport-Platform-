@@ -23,9 +23,7 @@ export const Timeline: React.FC<Props> = ({ events }) => {
             </View>
 
             <View style={styles.rightColumn}>
-              <Text style={styles.statusText}>
-                {item.status.replace(/_/g, ' ')}
-              </Text>
+              <Text style={styles.statusText}>{item.status.replace(/_/g, ' ')}</Text>
               <Text style={styles.locationText}>{item.locationName}</Text>
               <Text style={styles.actorText}>By: {item.actorName}</Text>
             </View>

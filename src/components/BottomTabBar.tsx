@@ -6,9 +6,8 @@ import {
   StyleSheet,
   Text,
   View,
-  ViewStyle,
 } from 'react-native';
-import { TabKey } from './AppTabs';
+import { TabKey } from '@/type/navigation';
 
 const TABS: { key: TabKey; label: string; icon: string }[] = [
   { key: 'HOME', label: 'Home', icon: '🏠' },
@@ -20,10 +19,9 @@ const TABS: { key: TabKey; label: string; icon: string }[] = [
 type Props = {
   active: TabKey;
   onTabChange: (t: TabKey) => void;
-  style?: ViewStyle;
 };
 
-export default function BottomTabBar({ active, onTabChange, style }: Props) {
+export default function BottomTabBar({ active, onTabChange }: Props) {
   const [hovered, setHovered] = useState<string | null>(null);
   const glow = useMemo(() => new Animated.Value(0), []);
 
@@ -36,17 +34,13 @@ export default function BottomTabBar({ active, onTabChange, style }: Props) {
 
   const glowColor = glow.interpolate({
     inputRange: [0, 1],
-    outputRange: ['rgba(0,0,0,0)', 'rgba(250, 204, 21, 0.18)'], // soft dark yellow glow
+    outputRange: ['rgba(0,0,0,0)', 'rgba(250, 204, 21, 0.18)'],
   });
 
   return (
     <Animated.View
       style={[
         styles.container,
-        style,
-        {
-          shadowColor: '#000',
-        },
         { backgroundColor: 'rgba(255,255,255,0.6)', borderColor: 'rgba(255,255,255,0.18)' },
       ]}>
       <Animated.View pointerEvents="none" style={[styles.glow, { backgroundColor: glowColor }]} />
@@ -68,9 +62,9 @@ export default function BottomTabBar({ active, onTabChange, style }: Props) {
               style={({ pressed }) => [
                 styles.btn,
                 isActive && styles.btnActive,
-                pressed && { opacity: 0.8 },
+                pressed && { opacity: 0.88 },
               ]}>
-              <Text style={[styles.icon]}>{t.icon}</Text>
+              <Text style={styles.icon}>{t.icon}</Text>
               <Text style={[styles.label, isActive && styles.labelActive]}>{t.label}</Text>
             </Pressable>
           );
@@ -86,9 +80,7 @@ const styles = StyleSheet.create({
     marginBottom: 14,
     borderRadius: 28,
     padding: 6,
-    // glass effect
     borderWidth: 1,
-    // shadows
     shadowOffset: { width: 0, height: 10 },
     shadowOpacity: 0.06,
     shadowRadius: 20,
@@ -129,6 +121,6 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   labelActive: {
-    color: '#7A4D00', // dark yellow-ish accent
+    color: '#7A4D00',
   },
 });
